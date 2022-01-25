@@ -19,7 +19,7 @@ let popupMessage = document.getElementsByClassName("popup-message")[0]
 
 
 async function fetchWordsJSON() {
-    let response = await fetch('/words.json');
+    let response = await fetch('words.json');
     let wordsObject = await response.json();
     let wordsIndexArray = []
     while(wordsIndexArray.length < 35){
