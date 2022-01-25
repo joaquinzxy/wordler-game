@@ -122,6 +122,10 @@ function resetGame(){
         cap.classList = "keyboard-cap key"
     })
 
+    Object.values(keyboardCaps).forEach(key=>{
+        key.addEventListener("click", listenerCaps);   
+    })
+
     wordsInserted = 0
 }
 
