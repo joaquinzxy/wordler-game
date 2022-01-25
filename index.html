@@ -5,59 +5,113 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet"> -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
-        <div class="table">
-            <div class="row" id="row-one">
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
+    <div class="main">
+        <div class="container">
+            <h1>WORDLE (JDS)</h1>
+            <div class="table">
+                <div class="row" id="row-one">
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                </div>
+                <div class="row" id="row-two">
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                </div>
+                <div class="row" id="row-three">
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                </div>
+                <div class="row" id="row-four">
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                </div>
+                <div class="row" id="row-five">
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                </div>
+                <div class="row" id="row-six">
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                    <div class="square"></div>
+                </div>
             </div>
-            <div class="row" id="row-two">
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-            </div>
-            <div class="row" id="row-three">
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-            </div>
-            <div class="row" id="row-four">
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-            </div>
-            <div class="row" id="row-five">
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-            </div>
-            <div class="row" id="row-six">
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
-                <div class="square"></div>
+            <div id="keyboard-container">
+                <div id="keyboard-container"> 
+    
+                    <div class="keys-row">
+                        <div data-letter="q" class="keyboard-cap key">Q</div>
+                        <div data-letter="w" class="keyboard-cap key">W</div>
+                        <div data-letter="e" class="keyboard-cap key">E</div>
+                        <div data-letter="r" class="keyboard-cap key">R</div>
+                        <div data-letter="t" class="keyboard-cap key">T</div>
+                        <div data-letter="y" class="keyboard-cap key">Y</div>
+                        <div data-letter="u" class="keyboard-cap key">U</div>
+                        <div data-letter="i" class="keyboard-cap key">I</div>
+                        <div data-letter="o" class="keyboard-cap key">O</div>
+                        <div data-letter="p" class="keyboard-cap key">P</div>
+                    </div>
+                    
+                    <div class="keys-row">
+                        <div data-letter="a" class="keyboard-cap key">A</div>
+                        <div data-letter="s" class="keyboard-cap key">S</div>
+                        <div data-letter="d" class="keyboard-cap key">D</div>
+                        <div data-letter="f" class="keyboard-cap key">F</div>
+                        <div data-letter="g" class="keyboard-cap key">G</div>
+                        <div data-letter="h" class="keyboard-cap key">H</div>
+                        <div data-letter="j" class="keyboard-cap key">J</div>
+                        <div data-letter="k" class="keyboard-cap key">K</div>
+                        <div data-letter="l" class="keyboard-cap key">L</div>
+                        <div data-letter="ñ" class="keyboard-cap key">Ñ</div>
+                    </div>
+    
+                    <div class="keys-row">
+                        <div class="keyboard-cap delete-key">BORRAR</div>
+                        <div data-letter="z" class="keyboard-cap key">Z</div>
+                        <div data-letter="x" class="keyboard-cap key">X</div>
+                        <div data-letter="c" class="keyboard-cap key">C</div>
+                        <div data-letter="v" class="keyboard-cap key">V</div>
+                        <div data-letter="b" class="keyboard-cap key">B</div>
+                        <div data-letter="n" class="keyboard-cap key">N</div>
+                        <div data-letter="m" class="keyboard-cap key">M</div>
+                        <div class="keyboard-cap enter-key">ENTER </div>
+                    </div>
+                    
+                </div>
             </div>
         </div>
-        <div id="keyboard-container">
-
+        <div class="pop-up hidden">
+            <h2 class="popup-message">Ganaste!</h2>
+            <p>Intentos: <span class="wordsTried"></span></p>
+            <button class="reset-btn">Reiniciar</button>
         </div>
+        <div class="overlay disabled"></div>
     </div>
+
     <script src="script.js"></script>
 </body>
 
