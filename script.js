@@ -11,11 +11,15 @@ let rowsTableGroupSet = document.getElementsByClassName("row")
 let keyboardCaps = document.getElementsByClassName("key")
 let keyboardDelete = document.getElementsByClassName("delete-key")[0]
 let keyboardEnter = document.getElementsByClassName("enter-key")[0]
-let popupContainer = document.getElementsByClassName("pop-up")[0]
+let instruccionsButton = document.getElementsByClassName("instruccions-button")[0]
+let closeInstruccionsButton = document.getElementsByClassName("close-instruccions-button")[0]
+let popupAlertContainer = document.getElementsByClassName("pop-up-alert")[0]
+let popupInstruccionsContainer = document.getElementsByClassName("pop-up-instruccions")[0]
 let overlay = document.getElementsByClassName("overlay")[0]
-let resetButton = document.getElementsByClassName("reset-btn")[0]
-let wordsTriedContainer = document.getElementsByClassName("wordsTried")[0]
-let popupMessage = document.getElementsByClassName("popup-message")[0]
+let resetButtonPopup = document.getElementsByClassName("reset-btn-popup")[0]
+let resetButtonTitle = document.getElementsByClassName("reset-btn-title")[0]
+let popupContent = document.getElementsByClassName("popup-content")[0]
+let popupTitle = document.getElementsByClassName("popup-title")[0]
 
 
 async function fetchWordsJSON() {
@@ -35,9 +39,13 @@ function checkWord(wordUserArray, wordCorrect){
     let squareIndex = 0;
     console.log(wordUserArray)
     console.log(wordCorrect)
+    let letterMatchIndex = 0
     wordUserArray.forEach(letter => {
         if (wordCorrect.indexOf(letter)>=0) {
-            if (wordCorrectArray.indexOf(letter)==wordUserArray.indexOf(letter)) {
+            console.log(wordCorrectArray[squareIndex]+" "+letter+ " "+ squareIndex)
+            if (letter==wordCorrectArray[squareIndex]) {
+                console.log("indexOfCorrectArray: "+wordCorrectArray.indexOf(letter))
+                console.log("indexOfUserArray: "+wordUserArray.indexOf(letter))
                 currentRow[squareIndex].classList.add("correct")
                 keyboardCaps[alphabet.indexOf(wordUserArray[squareIndex])].classList = "keyboard-cap key correct"
                 correctLetters++
@@ -53,20 +61,20 @@ function checkWord(wordUserArray, wordCorrect){
         squareIndex++
     });
     if (wordUserArray.join("")==wordCorrect) {
-        wordsTriedContainer.innerText = `${wordsInserted+1}/6`
-        popupMessage.innerHTML = "Ganaste!"
-        overlay.classList.toggle("disabled")
-        popupContainer.classList.toggle("hidden")
+        popupTitle.innerHTML = "Ganaste!"
+        popupContent.innerText = `Intentos: ${wordsInserted+1}/6`
+        overlay.classList.remove("disabled")
+        popupAlertContainer.classList.remove("hidden")
     } else {
         correctLetters = 0
     }
     wordsInserted++
     console.log(wordsInserted)
     if (wordsInserted==6) {
-        wordsTriedContainer.innerText = `${wordsInserted+1}/6`
-        popupMessage.innerHTML = "Perdiste :("
-        overlay.classList.toggle("disabled")
-        popupContainer.classList.toggle("hidden")
+        popupContent.innerText = `La palabra correcta era: ${wordCorrect.toUpperCase()}`
+        popupTitle.innerHTML = `Perdiste :(`
+        overlay.classList.remove("disabled")
+        popupAlertContainer.classList.remove("hidden")
 
     }
     cursorIndex = 0
@@ -99,15 +107,34 @@ keyboardEnter.addEventListener("click", function(){
     actualWordGiven = []
 })
 
-resetButton.addEventListener("click", function(){
-    overlay.classList.toggle("disabled")
-    popupContainer.classList.toggle("hidden")
+resetButtonPopup.addEventListener("click", function(){
+    overlay.classList.add("disabled")
+    popupAlertContainer.classList.add("hidden")
     resetGame()
     wordIndex++
 })
 
-document.addEventListener("DOMContentLoaded", async function(){
+resetButtonTitle.addEventListener("click", function(){
+    resetGame()
+    wordIndex++
+})
 
+instruccionsButton.addEventListener("click", function(){
+    overlay.classList.toggle("disabled")
+    popupInstruccionsContainer.classList.toggle("hidden")
+})
+
+closeInstruccionsButton.addEventListener("click", function(){
+    overlay.classList.toggle("disabled")
+    popupInstruccionsContainer.classList.toggle("hidden")
+})
+
+overlay.addEventListener("click", function(){
+    overlay.classList.toggle("disabled")
+    popupInstruccionsContainer.classList.remove("hidden")
+    popupAlertContainer.classList.remove("hidden")
+    popupInstruccionsContainer.classList.add("hidden")
+    popupAlertContainer.classList.add("hidden")
 })
 
 function resetGame(){
@@ -127,6 +154,7 @@ function resetGame(){
     })
 
     wordsInserted = 0
+    cursorIndex = 0
 }
 
 fetchWordsJSON()

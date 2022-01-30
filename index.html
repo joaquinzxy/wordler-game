@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,14 +8,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="main">
         <div class="container">
-            <h1>WORDLE (JDS)</h1>
+            <div class="title">
+                <a href="#" class="instruccions-button">
+                    <i class="far fa-question-circle"></i>
+                </a>
+                <h1>WORDLE</h1>
+                <a href="#" class="reset-btn-title">
+                    <i class="fas fa-undo-alt"></i>
+                </a>
+            </div>
             <div class="table">
                 <div class="row" id="row-one">
                     <div class="square"></div>
@@ -61,7 +70,6 @@
                 </div>
             </div>
             <div id="keyboard-container">
-                <div id="keyboard-container"> 
     
                     <div class="keys-row">
                         <div data-letter="q" class="keyboard-cap key">Q</div>
@@ -101,17 +109,39 @@
                         <div class="keyboard-cap enter-key">ENTER </div>
                     </div>
                     
-                </div>
             </div>
+            <span class="author">Created by <a href="http://soyjoaquin.xyz/">Joaquín</a> - <a href="https://github.com/joaquinzxy/wordler-game">Github</a></span>
         </div>
-        <div class="pop-up hidden">
-            <h2 class="popup-message">Ganaste!</h2>
-            <p>Intentos: <span class="wordsTried"></span></p>
-            <button class="reset-btn">Reiniciar</button>
+
+
+        <div class="pop-up pop-up-alert hidden">
+            <h2 class="popup-title"></h2>
+            <p class="popup-content"></p>
+
+            <button class="reset-btn-popup">Reiniciar</button>
+        </div>
+
+        <div class="pop-up pop-up-instruccions hidden">
+            <h2 class="popup-title">Cómo jugar:</h2>
+            <p>Adiviná la palabra de 5 letras, tenes 6 chances.
+                <br>
+                Luego de ingresar la palabra recibirás pistas</p>
+                <div class="row">
+                    <div class="square exist">J</div>
+                    <div>La letra existe, pero no va ahí.</div>
+                </div>
+                <div class="row">
+                    <div class="square correct">D</div>
+                    <div>La letra está en el lugar correcto.</div>
+                </div>
+                <div class="row">
+                    <div class="square wrong">S</div>
+                    <div>La letra no está en la palabra.</div>
+                </div>
+            <button class="close-instruccions-button">CERRAR</button>
         </div>
         <div class="overlay disabled"></div>
     </div>
-
     <script src="script.js"></script>
 </body>
 
