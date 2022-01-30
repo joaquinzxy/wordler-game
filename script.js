@@ -65,18 +65,18 @@ function checkWord(wordUserArray, wordCorrect){
         popupContent.innerText = `Intentos: ${wordsInserted+1}/6`
         overlay.classList.remove("disabled")
         popupAlertContainer.classList.remove("hidden")
-    } else {
-        correctLetters = 0
-    }
-    wordsInserted++
-    console.log(wordsInserted)
-    if (wordsInserted==6) {
+    } else if (wordsInserted==6) {
         popupContent.innerText = `La palabra correcta era: ${wordCorrect.toUpperCase()}`
         popupTitle.innerHTML = `Perdiste :(`
         overlay.classList.remove("disabled")
         popupAlertContainer.classList.remove("hidden")
 
+    } else {
+        correctLetters = 0
     }
+    wordsInserted++
+    console.log(wordsInserted)
+    
     cursorIndex = 0
 }
 
