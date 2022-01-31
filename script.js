@@ -37,15 +37,13 @@ function checkWord(wordUserArray, wordCorrect){
     let wordCorrectArray = wordCorrect.split('')
     let currentRow = rowsTableGroupSet[wordsInserted].getElementsByClassName("square")
     let squareIndex = 0;
-    console.log(wordUserArray)
-    console.log(wordCorrect)
     let letterMatchIndex = 0
     wordUserArray.forEach(letter => {
         if (wordCorrect.indexOf(letter)>=0) {
-            console.log(wordCorrectArray[squareIndex]+" "+letter+ " "+ squareIndex)
+    
             if (letter==wordCorrectArray[squareIndex]) {
-                console.log("indexOfCorrectArray: "+wordCorrectArray.indexOf(letter))
-                console.log("indexOfUserArray: "+wordUserArray.indexOf(letter))
+        
+        
                 currentRow[squareIndex].classList.add("correct")
                 keyboardCaps[alphabet.indexOf(wordUserArray[squareIndex])].classList = "keyboard-cap key correct"
                 correctLetters++
@@ -75,7 +73,6 @@ function checkWord(wordUserArray, wordCorrect){
         correctLetters = 0
     }
     wordsInserted++
-    console.log(wordsInserted)
     
     cursorIndex = 0
 }
