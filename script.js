@@ -37,7 +37,6 @@ function checkWord(wordUserArray, wordCorrect){
     let wordCorrectArray = wordCorrect.split('')
     let currentRow = rowsTableGroupSet[wordsInserted].getElementsByClassName("square")
     let squareIndex = 0;
-    let letterMatchIndex = 0
     wordUserArray.forEach(letter => {
         if (wordCorrect.indexOf(letter)>=0) {
     
