@@ -7,7 +7,8 @@ let alphabet = ["q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h",
 let cursorIndex = 0;
 let correctLetters = 0
 
-let rowsTableGroupSet = document.getElementsByClassName("row")
+let mainTable = document.getElementById("main-table")
+let rowsTableGroupSet = mainTable.getElementsByClassName("row")
 let keyboardCaps = document.getElementsByClassName("key")
 let keyboardDelete = document.getElementsByClassName("delete-key")[0]
 let keyboardEnter = document.getElementsByClassName("enter-key")[0]
@@ -20,7 +21,6 @@ let resetButtonPopup = document.getElementsByClassName("reset-btn-popup")[0]
 let resetButtonTitle = document.getElementsByClassName("reset-btn-title")[0]
 let popupContent = document.getElementsByClassName("popup-content")[0]
 let popupTitle = document.getElementsByClassName("popup-title")[0]
-
 
 async function fetchWordsJSON() {
     let response = await fetch('words.json');
