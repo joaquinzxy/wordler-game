@@ -2,8 +2,7 @@ let wordsArray = []
 let wordIndex = 0
 let wordsInserted = 0;
 let actualWordGiven = []
-let wordCorrect = ""
-let alphabet = ["q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j","k","l","ñ","z","x","c","v","b","n","m",];
+const alphabet = ["q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j","k","l","ñ","z","x","c","v","b","n","m",];
 let cursorIndex = 0;
 let correctLetters = 0
 
@@ -12,8 +11,8 @@ let rowsTableGroupSet = mainTable.getElementsByClassName("row")
 let keyboardCaps = document.getElementsByClassName("key")
 let keyboardDelete = document.getElementsByClassName("delete-key")[0]
 let keyboardEnter = document.getElementsByClassName("enter-key")[0]
-let instruccionsButton = document.getElementsByClassName("instruccions-button")[0]
-let closeInstruccionsButton = document.getElementsByClassName("close-instruccions-button")[0]
+let instructionsButton = document.getElementsByClassName("instruccions-button")[0]
+let closeInstructionsButton = document.getElementsByClassName("close-instruccions-button")[0]
 let popupAlertContainer = document.getElementsByClassName("pop-up-alert")[0]
 let popupInstruccionsContainer = document.getElementsByClassName("pop-up-instruccions")[0]
 let overlay = document.getElementsByClassName("overlay")[0]
@@ -22,61 +21,77 @@ let resetButtonTitle = document.getElementsByClassName("reset-btn-title")[0]
 let popupContent = document.getElementsByClassName("popup-content")[0]
 let popupTitle = document.getElementsByClassName("popup-title")[0]
 
-async function fetchWordsJSON() {
+const fetchWordsJSON = async () => {
     let response = await fetch('words.json');
     let wordsObject = await response.json();
+    return wordsObject;
+}
+
+const wordsMixer = (words) => {
     let wordsIndexArray = []
     while(wordsIndexArray.length < 35){
         let random = Math.floor(Math.random() * 35);
-        if(wordsIndexArray.indexOf(random) === -1) wordsIndexArray.push(random);
+        if(words.indexOf(random) === -1) wordsIndexArray.push(random);
     }
-    wordsArray = wordsIndexArray.map(index=>wordsObject.words[index])
+    wordsArray = wordsIndexArray.map(index=>words[index])
 }
 
-function checkWord(wordUserArray, wordCorrect){
-    let wordCorrectArray = wordCorrect.split('')
-    let currentRow = rowsTableGroupSet[wordsInserted].getElementsByClassName("square")
-    let squareIndex = 0;
-    wordUserArray.forEach(letter => {
-        if (wordCorrect.indexOf(letter)>=0) {
-    
-            if (letter==wordCorrectArray[squareIndex]) {
-        
-        
-                currentRow[squareIndex].classList.add("correct")
-                keyboardCaps[alphabet.indexOf(wordUserArray[squareIndex])].classList = "keyboard-cap key correct"
-                correctLetters++
-            } else {
-                keyboardCaps[alphabet.indexOf(wordUserArray[squareIndex])].classList = "keyboard-cap key exist"
-                currentRow[squareIndex].classList.add("exist")
-            }
-        } else {
-            keyboardCaps[alphabet.indexOf(wordUserArray[squareIndex])].classList = "keyboard-cap key wrong"
-            currentRow[squareIndex].classList.add("wrong")
-            keyboardCaps[alphabet.indexOf(wordUserArray[squareIndex])].removeEventListener("click", listenerCaps)
-        }
-        squareIndex++
-    });
-    if (wordUserArray.join("")==wordCorrect) {
+const showMessage = (hasWon)=>{
+    const correctWord = wordsArray[wordIndex].toLowerCase();
+    if (hasWon) {
         popupTitle.innerHTML = "Ganaste!"
         popupContent.innerText = `Intentos: ${wordsInserted+1}/6`
         overlay.classList.remove("disabled")
         popupAlertContainer.classList.remove("hidden")
-    } else if (wordsInserted==6) {
-        popupContent.innerText = `La palabra correcta era: ${wordCorrect.toUpperCase()}`
+    } else {
+        popupContent.innerText = `La palabra correcta era: ${correctWord.toUpperCase()}`
         popupTitle.innerHTML = `Perdiste :(`
         overlay.classList.remove("disabled")
         popupAlertContainer.classList.remove("hidden")
+    }
+}
 
+const checkLetter = (indexLetter, letter, squareIndex) =>{
+    const currentRow = rowsTableGroupSet[wordsInserted].getElementsByClassName("square")
+    const correctWord = wordsArray[wordIndex].toLowerCase();
+    const wordCorrectArray = correctWord.split('')
+
+    if (indexLetter>=0) {
+        if (letter==wordCorrectArray[squareIndex]) {
+            currentRow[squareIndex].classList.add("correct")
+            keyboardCaps[alphabet.indexOf(letter)].classList = "keyboard-cap key correct"
+            correctLetters++
+        } else {
+            keyboardCaps[alphabet.indexOf(letter)].classList = "keyboard-cap key exist"
+            currentRow[squareIndex].classList.add("exist")
+        }
+    } else {
+        keyboardCaps[alphabet.indexOf(letter)].classList = "keyboard-cap key wrong"
+        currentRow[squareIndex].classList.add("wrong")
+        keyboardCaps[alphabet.indexOf(letter)].removeEventListener("click", listenerCaps)
+    }
+}
+
+const checkWord = (wordUserArray) => {
+    let squareIndex = 0;
+    const correctWord = wordsArray[wordIndex].toLowerCase();
+    wordUserArray.forEach(letter => {
+        checkLetter(correctWord.indexOf(letter), letter, squareIndex)
+        squareIndex++
+    });
+
+    if (wordUserArray.join("")==correctWord) {
+        showMessage(true)
+    } else if (wordsInserted==5) {
+        showMessage(false)
     } else {
         correctLetters = 0
     }
     wordsInserted++
-    
     cursorIndex = 0
 }
 
-var listenerCaps = (event)=>{
+const listenerCaps = event =>{
     if (cursorIndex<5) {
         let currentRow = rowsTableGroupSet[wordsInserted].getElementsByClassName("square")
         currentRow[cursorIndex].innerHTML = event.target.dataset.letter
@@ -85,55 +100,47 @@ var listenerCaps = (event)=>{
     }
 }
 
-Object.values(keyboardCaps).forEach(key=>{
-    key.addEventListener("click", listenerCaps);   
-})
-
-keyboardDelete.addEventListener("click", function(){
+const keyboardDeleteHandler = () => {
     if (cursorIndex>=1) {
         cursorIndex--
         let currentRow = rowsTableGroupSet[wordsInserted].getElementsByClassName("square")
         currentRow[cursorIndex].innerHTML = ""
         actualWordGiven.pop()
     }
-})
+}
 
-keyboardEnter.addEventListener("click", function(){
-    checkWord(actualWordGiven, wordsArray[wordIndex].toLowerCase())
+const keyboardEnterHandler = () => {
+    checkWord(actualWordGiven)
     actualWordGiven = []
-})
+}
 
-resetButtonPopup.addEventListener("click", function(){
+const resetButtonPopHandler = () => {
     overlay.classList.add("disabled")
     popupAlertContainer.classList.add("hidden")
     resetGame()
-    wordIndex++
-})
+}
 
-resetButtonTitle.addEventListener("click", function(){
-    resetGame()
-    wordIndex++
-})
-
-instruccionsButton.addEventListener("click", function(){
+const instructionsBtnHandler = () => {
     overlay.classList.toggle("disabled")
     popupInstruccionsContainer.classList.toggle("hidden")
-})
+}
 
-closeInstruccionsButton.addEventListener("click", function(){
+
+const closeInstructionsBtnHandler = () => {
     overlay.classList.toggle("disabled")
     popupInstruccionsContainer.classList.toggle("hidden")
-})
+}
 
-overlay.addEventListener("click", function(){
+
+const overlayHandler = () => {
     overlay.classList.toggle("disabled")
     popupInstruccionsContainer.classList.remove("hidden")
     popupAlertContainer.classList.remove("hidden")
     popupInstruccionsContainer.classList.add("hidden")
     popupAlertContainer.classList.add("hidden")
-})
+}
 
-function resetGame(){
+const resetGame= () => {
     Object.values(rowsTableGroupSet).forEach(row => {
         Object.values(row.getElementsByClassName("square")).forEach(square => {
             square.innerHTML = ""
@@ -149,8 +156,22 @@ function resetGame(){
         key.addEventListener("click", listenerCaps);   
     })
 
+    wordIndex++
     wordsInserted = 0
     cursorIndex = 0
+    actualWordGiven = []
 }
 
-fetchWordsJSON()
+instructionsButton.addEventListener("click", instructionsBtnHandler)
+overlay.addEventListener("click", overlayHandler);
+closeInstructionsButton.addEventListener("click", closeInstructionsBtnHandler)
+keyboardEnter.addEventListener("click", keyboardEnterHandler)
+keyboardDelete.addEventListener("click", keyboardDeleteHandler)
+resetButtonPopup.addEventListener("click", resetButtonPopHandler);
+resetButtonTitle.addEventListener("click", resetGame);
+
+Object.values(keyboardCaps).forEach(key=>{
+    key.addEventListener("click", listenerCaps);   
+})
+
+fetchWordsJSON().then(wordsObj => wordsMixer(wordsObj.words))
